@@ -1,0 +1,28 @@
+{
+  "name": "node-mcp2210-hid",
+  "version": "0.9.0",
+  "description": "MCP2210 API using node-hid",
+  "main": "mcp2210.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aesora/node-mcp2210-hid.git"
+  },
+  "keywords": [
+    "mcp2210",
+    "spi",
+    "usb",
+    "hid"
+  ],
+  "author": "Aesora UG (haftungsbeschraenkt)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aesora/node-mcp2210-hid/issues"
+  },
+  "homepage": "https://github.com/aesora/node-mcp2210-hid#readme",
+  "dependencies": {
+    "node-hid": "^0.5.1"
+  }
+}
