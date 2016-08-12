@@ -17,7 +17,9 @@ function mcp2210(path){
   var write = this.hid.write;
   this.gpio = {};
   Object.defineProperties(this, {
-    'status': properties.status(this.hid.readSync, this.hid.write)
+    'status': properties.status(this.hid.readSync, this.hid.write),
+    'nvm1': properties.nvm1(this.hid.readSync, this.hid.write),
+    'nvm2': properties.nvm2(this.hid.readSync, this.hid.write)
   });
   Object.defineProperties(this.gpio, {
     'current': properties.gpio.current(this.hid.readSync, this.hid.write),

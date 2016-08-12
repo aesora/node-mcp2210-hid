@@ -11,7 +11,7 @@ exports.current = function(read, write){
         ret.push(data[5] & 1)
         return ret;
       }
-      return null;
+      return undefined;
     },
     set: function(val){
       var out = [0x30, 0x00, 0x00, 0x00, 0x00, 0x00]
@@ -31,7 +31,7 @@ exports.current = function(read, write){
           return ret;
         }        
       }
-      return null;
+      return undefined;
     },
     enumerable: true
   };
@@ -50,7 +50,7 @@ exports.dir = function(read, write){
         ret.push(data[5] & 1)
         return ret;
       }
-      return null;
+      return undefined;
     },
     set: function(val){
       var out = [0x32, 0x00, 0x00, 0x00, 0x00, 0x00]
@@ -66,18 +66,7 @@ exports.dir = function(read, write){
           return val;
         }        
       }
-      return null;
-    },
-    enumerable: true
-  };
-};
-
-exports.nvm = function(read, write){
-  return {
-    get: function(){
-      
-    },
-    set: function(val){
+      return undefined;
     },
     enumerable: true
   };

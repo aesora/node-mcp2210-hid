@@ -13,13 +13,13 @@
 ## public
 
 #### `mcp2210`
- - `gpio.nvm`: [`gpioInfo`](#gpioinfo)\[9\]
- - `gpio.ram`: [`gpioInfo`](#gpioinfo)\[9\]
  - `gpio.current`: `boolean`\[9\]
  - `gpio.dir`: `boolean`\[9\]
+ - `nvm1`: [`config1`](#config1)
+ - `nvm2`: [`config2`](#config2)
+ - `ram1`: [`config1`](#config1)
+ - `ram2`: [`config2`](#config2)
  - `config`: [`baseConfig`](#baseconfig)
- - `config.nvm`: [`config`](#config)
- - `config.ram`: [`config`](#config)
  - `status`: [status](#status)
  - `busy`: `boolean`
  - `init([password])` *reloads all values from the chip - usually not needed* ***`password` is an array of up to 8 bytes***
@@ -79,11 +79,14 @@
  - `powerOption`: [`powerOption`](#poweroption)\[0-3\]
  - `requestCurrent`: `integer` *requested current in mA*
 
-#### `config`
+#### `config1`
+ - `gpio`: [`gpioInfo`](#gpioinfo)\[9\]
  - `remoteWakeUp`: `boolean` *whether remote wake-up is enabled*
  - `interruptMode`: [`interruptMode`](#interruptmode)
  - `autoRelease`: `boolean` *whether to release the bus between transfers*
  - `accessControl`: [`accessControl`](#accesscontrol)
+
+#### `config2`
  - `bitRate`: `integer` *32 bit value  of bitrate*
  - `idleCS`: `boolean`\[9\]
  - `activeCS`: `boolean`\[9\]
