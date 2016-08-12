@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/aesora/node-mcp2210-hid#readme",
   "dependencies": {
+    "deasync": "^0.1.7",
     "node-hid": "^0.5.1"
   }
 }
