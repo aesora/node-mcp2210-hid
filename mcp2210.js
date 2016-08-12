@@ -16,14 +16,21 @@ function mcp2210(path){
   var read = this.hid.readSync;
   var write = this.hid.write;
   this.gpio = {};
+  this.config = {};
   Object.defineProperties(this, {
     'status': properties.status(this.hid.readSync, this.hid.write),
     'nvm1': properties.nvm1(this.hid.readSync, this.hid.write),
-    'nvm2': properties.nvm2(this.hid.readSync, this.hid.write)
+    'nvm2': properties.nvm2(this.hid.readSync, this.hid.write),
+    'ram1': properties.ram1(this.hid.readSync, this.hid.write),
+    'ram2': properties.ram2(this.hid.readSync, this.hid.write)
   });
   Object.defineProperties(this.gpio, {
     'current': properties.gpio.current(this.hid.readSync, this.hid.write),
     'dir': properties.gpio.dir(this.hid.readSync, this.hid.write)
+  });
+  Object.defineProperties(this.config, {
+    'manufacturerName': properties.config.manufacturer(this.hid.readSync, this.hid.write),
+    'productName': properties.config.product(this.hid.readSync, this.hid.write)
   });
 };
 

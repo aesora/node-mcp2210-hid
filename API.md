@@ -19,8 +19,8 @@
  - `nvm2`: [`config2`](#config2)
  - `ram1`: [`config1`](#config1)
  - `ram2`: [`config2`](#config2)
- - `config`: [`baseConfig`](#baseconfig)
- - `status`: [status](#status)
+ - `config`: [`config`](#config)
+ - `status`: [`status`](#status)
  - `busy`: `boolean`
  - `init([password])` *reloads all values from the chip - usually not needed* ***`password` is an array of up to 8 bytes***
  - `cancel()` *cancel the current transfer (if `busy`)*
@@ -71,7 +71,7 @@
 
 ### internal
 
-#### `baseConfig`
+#### `config`
  - `manufacturerName`: `string` ***shorter than 29 characters***
  - `productName`: `string` ***shorter than 29 characters***
  - `vendorId`: `integer`
