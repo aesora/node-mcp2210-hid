@@ -1,29 +1,29 @@
 # API
 
 ## `node-mcp2210-hid`
- - [mcp2210]
- - [pinDesignation]
- - [interruptMode]
- - [accessControl]
- - [powerOption]
- - [busOwner]
- - [transferStatus]
- - `getDevices()`: [deviceInfo] *returns array of hid devices filtered using [idList]*
+ - [`mcp2210`](#mcp2210)
+ - [`pinDesignation`](#pinDesignation)
+ - [`interruptMode`](#interruptMode)
+ - [`accessControl`](#accessControl)
+ - [`powerOption`](#powerOption)
+ - [`busOwner`](#busOwner)
+ - [`transferStatus`](#transferStatus)
+ - `getDevices()`: [deviceInfo](#deviceInfo) *returns array of hid devices filtered using [idList](#idList)*
 
 ## public
 
 #### `mcp2210`
- - `gpio.nvm`: [gpioInfo]\[9\]
- - `gpio.ram`: [gpioInfo]\[9\]
+ - `gpio.nvm`: [gpioInfo](#gpioInfo)\[9\]
+ - `gpio.ram`: [gpioInfo](#gpioInfo)\[9\]
  - `gpio.current`: boolean\[9\]
- - `config`: [baseConfig]
- - `config.nvm`: [config]
- - `config.ram`: [config]
+ - `config`: [baseConfig](#baseConfig)
+ - `config.nvm`: [config](#config)
+ - `config.ram`: [config](#config)
  - `status`: [status]
  - `busy`: boolean
  - `init([password])` *reloads all values from the chip - usually not needed* ***`password` is an array of up to 8 bytes***
  - `cancel()` *cancel the current transfer (if `busy`)*
- - `transfer(data, cb)` *transfers data and calls `cb(err, status, data)` for each response*  (see [transferStatus])
+ - `transfer(data, cb)` *transfers data and calls `cb(err, status, data)` for each response*  (see [transferStatus](#transferStatus))
  - `getInterruptCount([resetCounter])`: number
  - `getEEPROM(index)`: number
  - `setEEPROM(index, value)`: boolean *writes value to EEPROM and returns the success*
@@ -75,14 +75,14 @@
  - `productName`: string ***shorter than 29 characters***
  - `vendorId`: integer
  - `productId`: integer
- - `powerOption`: [powerOption]\[0-3\]
+ - `powerOption`: [powerOption](#powerOption)\[0-3\]
  - `requestCurrent`: integer *requested current in mA*
 
 #### `config`
  - `remoteWakeUp`: boolean *whether remote wake-up is enabled*
- - `interruptMode`: [interruptMode]
+ - `interruptMode`: [interruptMode](#interruptMode)
  - `autoRelease`: boolean *whether to release the bus between transfers*
- - `accessControl`: [accessControl]
+ - `accessControl`: [accessControl](#accessControl)
  - `bitRate`: integer *32 bit value  of bitrate*
  - `idleCS`: boolean\[9\]
  - `activeCS`: boolean\[9\]
@@ -98,10 +98,10 @@
  - `vendorId`: integer
  - `productId`: integer
  - `path`: string
- - `open([password])`: [mcp2210] *opens the selected device (using password if one is supplied)* ***`password` is an array of up to 8 bytes***
+ - `open([password])`: [mcp2210](#mcp2210) *opens the selected device (using password if one is supplied)* ***`password` is an array of up to 8 bytes***
 
 #### `gpioInfo`
- - `designation`: [pinDesignation]
+ - `designation`: [pinDesignation](#pinDesignation)
  - `defaultOutput`: boolean
  - `defaultDirection`: boolean
 
@@ -111,10 +111,9 @@
 
 #### `status`
  - `extReqRelease`: boolean *pending external request for SPI bus release*
- - `currentOwner`: [busOwner] *current SPI bus owner*
+ - `currentOwner`: [busOwner](#busOwner) *current SPI bus owner*
  - `passwordCount`: integer *count of password tries*
  - `passwordGuessed`: boolean
 
 #### `idList`
 > A list of all VID/PID combinations that should be considered a MCP2210. See [idlist.js](src/idlist.js) for more info.
-
