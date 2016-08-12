@@ -8,26 +8,26 @@
  - [`powerOption`](#powerOption)
  - [`busOwner`](#busOwner)
  - [`transferStatus`](#transferStatus)
- - `getDevices()`: [deviceInfo](#deviceInfo) *returns array of hid devices filtered using [idList](#idList)*
+ - `getDevices()`: [`deviceInfo`](#deviceInfo) *returns array of hid devices filtered using [idList](#idList)*
 
 ## public
 
 #### `mcp2210`
- - `gpio.nvm`: [gpioInfo](#gpioInfo)\[9\]
- - `gpio.ram`: [gpioInfo](#gpioInfo)\[9\]
- - `gpio.current`: boolean\[9\]
- - `config`: [baseConfig](#baseConfig)
- - `config.nvm`: [config](#config)
- - `config.ram`: [config](#config)
- - `status`: [status]
- - `busy`: boolean
+ - `gpio.nvm`: [`gpioInfo`](#gpioInfo)\[9\]
+ - `gpio.ram`: [`gpioInfo`](#gpioInfo)\[9\]
+ - `gpio.current`: `boolean`\[9\]
+ - `config`: [`baseConfig`](#baseConfig)
+ - `config.nvm`: [`config`](#config)
+ - `config.ram`: [`config`](#config)
+ - `status`: [status](#status)
+ - `busy`: `boolean`
  - `init([password])` *reloads all values from the chip - usually not needed* ***`password` is an array of up to 8 bytes***
  - `cancel()` *cancel the current transfer (if `busy`)*
- - `transfer(data, cb)` *transfers data and calls `cb(err, status, data)` for each response*  (see [transferStatus](#transferStatus))
- - `getInterruptCount([resetCounter])`: number
- - `getEEPROM(index)`: number
- - `setEEPROM(index, value)`: boolean *writes value to EEPROM and returns the success*
- - `unlock(password)`: boolean *returns success* ***`password` is an array of up to 8 bytes***
+ - `transfer(data, cb)` *transfers data and calls `cb(err, status, data)` for each response*  (see [`transferStatus`](#transferStatus))
+ - `getInterruptCount([resetCounter])`: `number`
+ - `getEEPROM(index)`: `number`
+ - `setEEPROM(index, value)`: `boolean` *writes value to EEPROM and returns the success*
+ - `unlock(password)`: `boolean` *returns success* ***`password` is an array of up to 8 bytes***
  - `setPassword(password)` ***`password` is an array of up to 8 bytes***
 
 #### `pinDesignation`
@@ -71,49 +71,49 @@
 ### internal
 
 #### `baseConfig`
- - `manufacturerName`: string ***shorter than 29 characters***
- - `productName`: string ***shorter than 29 characters***
- - `vendorId`: integer
- - `productId`: integer
- - `powerOption`: [powerOption](#powerOption)\[0-3\]
- - `requestCurrent`: integer *requested current in mA*
+ - `manufacturerName`: `string` ***shorter than 29 characters***
+ - `productName`: `string` ***shorter than 29 characters***
+ - `vendorId`: `integer`
+ - `productId`: `integer`
+ - `powerOption`: [`powerOption`](#powerOption)\[0-3\]
+ - `requestCurrent`: `integer` *requested current in mA*
 
 #### `config`
- - `remoteWakeUp`: boolean *whether remote wake-up is enabled*
- - `interruptMode`: [interruptMode](#interruptMode)
- - `autoRelease`: boolean *whether to release the bus between transfers*
- - `accessControl`: [accessControl](#accessControl)
- - `bitRate`: integer *32 bit value  of bitrate*
- - `idleCS`: boolean\[9\]
- - `activeCS`: boolean\[9\]
- - `delayCStoD`: integer *16 bit value of delay between asserting CS and the first bit of data (in 100us)*
- - `delayDtoCS`: integer *16 bit value of delay between the last bit of data and de-asserting CS (in 100us)*
- - `delayB`: integer *16 bit value of delay between consecutive data bytes (in 100us)*
- - `bytesPerTransaction`: integer *16 bit value of how many bytes to send per transaction*
- - `spiMode`: integer *the SPI mode to use*
+ - `remoteWakeUp`: `boolean` *whether remote wake-up is enabled*
+ - `interruptMode`: [`interruptMode`](#interruptMode)
+ - `autoRelease`: `boolean` *whether to release the bus between transfers*
+ - `accessControl`: [`accessControl`](#accessControl)
+ - `bitRate`: `integer` *32 bit value  of bitrate*
+ - `idleCS`: `boolean`\[9\]
+ - `activeCS`: `boolean`\[9\]
+ - `delayCStoD`: `integer` *16 bit value of delay between asserting CS and the first bit of data (in 100us)*
+ - `delayDtoCS`: `integer` *16 bit value of delay between the last bit of data and de-asserting CS (in 100us)*
+ - `delayB`: `integer` *16 bit value of delay between consecutive data bytes (in 100us)*
+ - `bytesPerTransaction`: `integer` *16 bit value of how many bytes to send per transaction*
+ - `spiMode`: `integer` *the SPI mode to use*
 
 #### `deviceInfo`
 > Device info copied from `node-hid` + `open()` function.
 
- - `vendorId`: integer
- - `productId`: integer
- - `path`: string
- - `open([password])`: [mcp2210](#mcp2210) *opens the selected device (using password if one is supplied)* ***`password` is an array of up to 8 bytes***
+ - `vendorId`: `integer`
+ - `productId`: `integer`
+ - `path`: `string`
+ - `open([password])`: [`mcp2210`](#mcp2210) *opens the selected device (using password if one is supplied)* ***`password` is an array of up to 8 bytes***
 
 #### `gpioInfo`
- - `designation`: [pinDesignation](#pinDesignation)
- - `defaultOutput`: boolean
- - `defaultDirection`: boolean
+ - `designation`: [`pinDesignation`](#pinDesignation)
+ - `defaultOutput`: `boolean`
+ - `defaultDirection`: `boolean`
 
 #### `gpioInfoShort`
- - `value`: boolean
- - `direction`: boolean
+ - `value`: `boolean`
+ - `direction`: `boolean`
 
 #### `status`
- - `extReqRelease`: boolean *pending external request for SPI bus release*
- - `currentOwner`: [busOwner](#busOwner) *current SPI bus owner*
- - `passwordCount`: integer *count of password tries*
- - `passwordGuessed`: boolean
+ - `extReqRelease`: `boolean` *pending external request for SPI bus release*
+ - `currentOwner`: [`busOwner`](#busOwner) *current SPI bus owner*
+ - `passwordCount`: `integer` *count of password tries*
+ - `passwordGuessed`: `boolean`
 
 #### `idList`
 > A list of all VID/PID combinations that should be considered a MCP2210. See [idlist.js](src/idlist.js) for more info.
