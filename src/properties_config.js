@@ -14,7 +14,7 @@ exports.manufacturer = function(read, write){
     },
     set: function(val){
       var out = [0x60, 0x50, 0x00, 0x00, 0x00, 0x03];
-      if(typeof val === string){
+      if(typeof val === 'string'){
         val = val.substr(0,29);
         out[4] = val.length * 2 + 2;
         for(var i = 0; i < val.length; i++){
@@ -49,7 +49,7 @@ exports.product = function(read, write){
     },
     set: function(val){
       var out = [0x60, 0x40, 0x00, 0x00, 0x00, 0x03];
-      if(typeof val === string){
+      if(typeof val === 'string'){
         val = val.substr(0,29);
         out[4] = val.length * 2 + 2;
         for(var i = 0; i < val.length; i++){

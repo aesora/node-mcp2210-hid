@@ -72,8 +72,8 @@
 ### internal
 
 #### `config`
- - `manufacturerName`: `string` ***shorter than 29 characters***
- - `productName`: `string` ***shorter than 29 characters***
+ - `manufacturerName`: `string` ***no more than 29 characters***
+ - `productName`: `string` ***no more than 29 characters***
  - `vendorId`: `integer`
  - `productId`: `integer`
  - `powerOption`: [`powerOption`](#poweroption)\[0-3\]
