@@ -222,4 +222,5 @@ exports.eeprom = function(read, write, address){
       return undefined;
     },
     enumerable: true
-}
+  };
+};
