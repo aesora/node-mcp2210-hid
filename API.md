@@ -13,19 +13,18 @@
 ## public
 
 #### `mcp2210`
- - `gpio.current`: `boolean`\[9\]
- - `gpio.dir`: `boolean`\[9\]
  - `nvm1`: [`config1`](#config1)
  - `nvm2`: [`config2`](#config2)
  - `ram1`: [`config1`](#config1)
  - `ram2`: [`config2`](#config2)
  - `config`: [`config`](#config)
  - `status`: [`status`](#status)
+ - `eeprom`: `number`\[256\]
+ - `gpio.current`: `boolean`\[9\]
+ - `gpio.dir`: `boolean`\[9\]
  - `cancel()` *cancel the current transfer*
  - `transfer(data, cb)` *transfers data and calls `cb(err, status, data)` for each response*  (see [`transferStatus`](#transferstatus))
  - `getInterruptCount([resetCounter])`: `number`
- - `getEEPROM(index)`: `number`
- - `setEEPROM(index, value)`: `boolean` *writes value to EEPROM and returns the success*
  - `unlock(password)`: `boolean` *returns success* ***`password` is an array of up to 8 bytes***
  - `setPassword(password)` ***`password` is an array of up to 8 bytes***
  - `requestBusRelease([ack])`: `boolean` *returns success, `ack` is the value of the ACK pin*

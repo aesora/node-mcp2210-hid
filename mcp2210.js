@@ -17,6 +17,7 @@ function mcp2210(path){
   var write = this.hid.write;
   this.gpio = {};
   this.config = {};
+  this.eeprom = [];
   Object.defineProperties(this, {
     'status': properties.status(this.hid.readSync, this.hid.write),
     'nvm1': properties.nvm1(this.hid.readSync, this.hid.write),
@@ -25,7 +26,8 @@ function mcp2210(path){
     'ram2': properties.ram2(this.hid.readSync, this.hid.write),
     'unlock': properties.unlock(this.hid.readSync, this.hid.write),
     'requestBusRelease': properties.release(this.hid.readSync, this.hid.write),
-    'cancel': properties.cancel(this.hid.readSync, this.hid.write)
+    'cancel': properties.cancel(this.hid.readSync, this.hid.write),
+    'getInterruptCount': properties.interrupt(this.hid.readSync, this.hid.write)
   });
   Object.defineProperties(this.gpio, {
     'current': properties.gpio.current(this.hid.readSync, this.hid.write),
@@ -35,27 +37,14 @@ function mcp2210(path){
     'manufacturerName': properties.config.manufacturer(this.hid.readSync, this.hid.write),
     'productName': properties.config.product(this.hid.readSync, this.hid.write)
   });
+  for(var i=0; i<0x100; i++){
+    Object.defineProperty(this.eeprom, i, properties.eeprom(this.hid.readSync, this.hid.write, i));
+  }
 };
 
 /*
-mcp2210.prototype.cancelSPITransfer = function(){
-  this.hid.write([0x11, 0x00, 0x00]);
-};
-
-mcp2210.prototype.readInterruptNum = function(reset){
-  this.hid.write([0x12, reset ? 0x00 : 0x01]);
-};
-
 mcp2210.prototype.readChipConfig = function(){
   this.hid.write([0x20, 0x00, 0x00]);
-};
-
-mcp2210.prototype.readGPIOValue = function(){
-  this.hid.write([0x31, 0x00, 0x00]);
-};
-
-mcp2210.prototype.readGPIODir = function(){
-  this.hid.write([0x33, 0x00, 0x00]);
 };
 
 mcp2210.prototype.readSPIConfig = function(){
@@ -76,18 +65,6 @@ mcp2210.prototype.readPowerUpChipConfig = function(){
 
 mcp2210.prototype.readUSBKeyParameters = function(){
   this.hid.write([0x61, 0x30, 0x00]);
-};
-
-mcp2210.prototype.readProductName = function(){
-  this.hid.write([0x61, 0x40, 0x00]);
-};
-
-mcp2210.prototype.readManufacturerName = function(){
-  this.hid.write([0x61, 0x50, 0x00]);
-};
-
-mcp2210.prototype.requestBusRelease = function(ack){
-  this.hid.write([0x80, ack ? 0x01 : 0x00, 0x00]);
 };
 */
 

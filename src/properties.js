@@ -170,7 +170,7 @@ exports.unlock = function(read, write){
 exports.release = function(read, write){
   return {
     value: function(ack){
-      this.hid.write([0x80, ack ? 0x01 : 0x00, 0x00]);
+      write([0x80, ack ? 0x01 : 0x00, 0x00]);
       var data = read();
       return data[0] === 0x80 && data[1] === 0x00;      
     },
@@ -179,12 +179,47 @@ exports.release = function(read, write){
 };
 
 exports.cancel = function(read, write){
-  return{
+  return {
     value: function(){
-      this.hid.write([0x11, 0x00, 0x00]);
+      write([0x11, 0x00, 0x00]);
       var data = read();
       return data[0] === 0x11 && data[1] === 0x00;
     },
     enumerable: true
   };
 };
+
+exports.interrupt = function(read, write){
+  return {
+    value: function(reset){
+      write([0x12, reset ? 0x00 : 0x01]);
+      var data = read();
+      return data[0] === 0x12 && data[1] === 0x00 ? data[4] + (data[5] << 8) : undefined;
+    },
+    enumerable: true
+  };
+};
+
+exports.eeprom = function(read, write, address){
+  return {
+    get: function(){
+      write([0x50, address, 0x00]);
+      var data = read();
+      if(data[0] === 0x50 && data[1] === 0x00 && data[2] === address){
+        return data[3];
+      }
+      return undefined;
+    },
+    set: function(val){
+      if(typeof val === 'number'){
+        val = val & 0xff;
+        write([0x51, address, val]);
+        var data = read();
+        if(data[0] === 0x51 && data[1] === 0x00){
+          return val;
+        }
+      }
+      return undefined;
+    },
+    enumerable: true
+}
