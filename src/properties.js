@@ -224,3 +224,78 @@ exports.eeprom = function(read, write, address){
     enumerable: true
   };
 };
+
+exports.password = function(read, write){
+  return {
+    value: function(password){
+      if(Array.isArray(password) && password.length > 0 && password.length < 9){
+        write([0x61, 0x20, 0x00, 0x00]);
+        var data = read();
+        if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x20){
+          data[0] = 0x60;
+          data[1] = 0x20;
+          data[2] = 0x00;
+          data[3] = 0x00;
+          for(var i = 0; i < password.length; i++){
+            data[19+i] = password[i];
+          }
+          write(data);
+          var data = read();
+          return data[0] === 0x60 && data[1] === 0x00 && data[2] === 0x20;
+        }
+      }
+      return false;
+    },
+    enumerable: true
+  };
+};
+
+exports.transfer = function(read, write){
+  return {
+    value: function(data, cb){
+      if(Array.isArray(data)){
+        var out = [0x42, min(data.length, 60), 0x00, 0x00];
+        for(var i = 0; i < data.length && i < 60; i++){
+          if(typeof data[i] !== 'number'){
+            cb('invalid data');
+            return;
+          }
+          out[4+i] = data[i];
+        }
+        write(out);
+        while(true){
+          var input = read();
+          if(input[0] === 0x42){
+            if(input[1] === 0x00){
+              var ret = [];
+              for(var i = 0; i < input[2] && i < 60; i++){
+                ret.push(input[4+i]);
+              }
+              switch(input[3]){
+                case 0x10:
+                  cb(null, 5, ret);
+                  return;
+                  break;
+                case 0x20:
+                  cb(null, 2, ret);
+                  break;
+                case 0x30:
+                  cb(null, 4, ret);
+                  break;
+              }
+            }else if(input[1] === 0xf8){
+              cb('bus busy', 3);
+              return;
+            }else if(input[1] === 0xf7){
+              cb('bus not available', 1);
+              return;
+            }
+          }
+        }
+      }
+      cb('invalid data');
+      return;
+    },
+    enumerable: true
+  };
+};

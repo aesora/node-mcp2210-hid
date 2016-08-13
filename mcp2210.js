@@ -27,7 +27,9 @@ function mcp2210(path){
     'unlock': properties.unlock(this.hid.readSync, this.hid.write),
     'requestBusRelease': properties.release(this.hid.readSync, this.hid.write),
     'cancel': properties.cancel(this.hid.readSync, this.hid.write),
-    'getInterruptCount': properties.interrupt(this.hid.readSync, this.hid.write)
+    'getInterruptCount': properties.interrupt(this.hid.readSync, this.hid.write),
+    'setPassword': properties.password(this.hid.readSync, this.hid.write),
+    'transfer': properties.transfer(this.hid.readSync, this.hid.write)
   });
   Object.defineProperties(this.gpio, {
     'current': properties.gpio.current(this.hid.readSync, this.hid.write),
@@ -35,7 +37,11 @@ function mcp2210(path){
   });
   Object.defineProperties(this.config, {
     'manufacturerName': properties.config.manufacturer(this.hid.readSync, this.hid.write),
-    'productName': properties.config.product(this.hid.readSync, this.hid.write)
+    'productName': properties.config.product(this.hid.readSync, this.hid.write),
+    'vendorId': properties.config.vid(this.hid.readSync, this.hid.write),
+    'productId': properties.config.pid(this.hid.readSync, this.hid.write),
+    'powerOption': properties.config.power(this.hid.readSync, this.hid.write),
+    'requestCurrent': properties.config.current(this.hid.readSync, this.hid.write)
   });
   for(var i=0; i<0x100; i++){
     Object.defineProperty(this.eeprom, i, properties.eeprom(this.hid.readSync, this.hid.write, i));

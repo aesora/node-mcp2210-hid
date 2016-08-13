@@ -30,7 +30,7 @@ exports.manufacturer = function(read, write){
       return undefined;
     },
     enumerable: true
-  }
+  };
 };
 
 exports.product = function(read, write){
@@ -65,17 +65,108 @@ exports.product = function(read, write){
       return undefined;
     },
     enumerable: true
-  }
+  };
 };
 
-exports.vid = function(){
+exports.vid = function(read, write){
+  return {
+    get: function(){
+      write([0x61, 0x30, 0x00]);
+      var data = read();
+      if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x30){
+        return data[12] + (data[13] << 8);
+      }
+      return undefined;
+    },
+    set: function(val){
+      write([0x61, 0x30, 0x00]);
+      var data = read();
+      if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x30 && typeof val === 'number'){
+        var ret = [0x60, 0x30, 0x00, 0x00, val & 0xff, (val >> 8) & 0xff, data[14], data[15], data[29], data[30]];
+        if(data[0] === 60 && data[1] === 0x00 && data[2] === 0x30){
+          return val;
+        }
+      }
+      return undefined;
+    },
+    enumerable: true
+  };
 };
 
-exports.pid = function(){
+exports.pid = function(read, write){
+  return {
+    get: function(){
+      write([0x61, 0x30, 0x00]);
+      var data = read();
+      if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x30){
+        return data[14] + (data[15] << 8);
+      }
+      return undefined;
+    },
+    set: function(val){
+      write([0x61, 0x30, 0x00]);
+      var data = read();
+      if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x30 && typeof val === 'number'){
+        write([0x60, 0x30, 0x00, 0x00, data[12], data[13], val & 0xff, (val >> 8) & 0xff, data[29], data[30]]);
+        if(data[0] === 60 && data[1] === 0x00 && data[2] === 0x30){
+          return val;
+        }
+      }
+      return undefined;
+    },
+    enumerable: true
+  };
 };
 
-exports.power = function(){
+exports.power = function(read, write){
+  return {
+    get: function(){
+      write([0x61, 0x30, 0x00]);
+      var data = read();
+      if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x30){
+        return data[29];
+      }
+      return undefined;
+    },
+    set: function(val){
+      write([0x61, 0x30, 0x00]);
+      var data = read();
+      if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x30 & typeof val === 'number'){
+        val = val & 0xff;
+        write([0x60, 0x30, 0x00, 0x00, data[12], data[13], data[14], data[15], val, data[30]]);
+        if(data[0] === 60 && data[1] === 0x00 && data[2] === 0x30){
+          return val;
+        }
+      }
+      return undefined;
+    },
+    enumerable: true
+  };
 };
 
-exports.current = function(){
+exports.current = function(read, write){
+  return {
+    get: function(){
+      write([0x61, 0x30, 0x00]);
+      var data = read();
+      if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x30){
+        return data[30] << 1;
+      }
+      return undefined;
+    },
+    set: function(val){
+      write([0x61, 0x30, 0x00]);
+      var data = read();
+      if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x30 && typeof val === 'number'){
+        val = (val >> 1) & 0xff;
+        write([0x60, 0x30, 0x00, 0x00, data[12], data[13], data[14], data[15], data[29], val]);
+        var data = read();
+        if(data[0] === 60 && data[1] === 0x00 && data[2] === 0x30){
+          return val << 1;
+        }
+      }
+      return undefined;
+    },
+    enumerable: true
+  };
 };

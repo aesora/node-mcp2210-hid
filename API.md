@@ -74,7 +74,7 @@
  - `productName`: `string` ***no more than 29 characters***
  - `vendorId`: `integer`
  - `productId`: `integer`
- - `powerOption`: [`powerOption`](#poweroption)\[0-3\]
+ - `powerOption`: [`powerOption`](#poweroption) *bit field*
  - `requestCurrent`: `integer` *requested current in mA*
 
 #### `config1`
