@@ -21,15 +21,14 @@
  - `ram2`: [`config2`](#config2)
  - `config`: [`config`](#config)
  - `status`: [`status`](#status)
- - `busy`: `boolean`
- - `init([password])` *reloads all values from the chip - usually not needed* ***`password` is an array of up to 8 bytes***
- - `cancel()` *cancel the current transfer (if `busy`)*
+ - `cancel()` *cancel the current transfer*
  - `transfer(data, cb)` *transfers data and calls `cb(err, status, data)` for each response*  (see [`transferStatus`](#transferstatus))
  - `getInterruptCount([resetCounter])`: `number`
  - `getEEPROM(index)`: `number`
  - `setEEPROM(index, value)`: `boolean` *writes value to EEPROM and returns the success*
  - `unlock(password)`: `boolean` *returns success* ***`password` is an array of up to 8 bytes***
  - `setPassword(password)` ***`password` is an array of up to 8 bytes***
+ - `requestBusRelease([ack])`: `boolean` *returns success, `ack` is the value of the ACK pin*
 
 #### `pinDesignation`
 > The function of a pin.

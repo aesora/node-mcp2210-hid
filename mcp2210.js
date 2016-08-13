@@ -22,7 +22,10 @@ function mcp2210(path){
     'nvm1': properties.nvm1(this.hid.readSync, this.hid.write),
     'nvm2': properties.nvm2(this.hid.readSync, this.hid.write),
     'ram1': properties.ram1(this.hid.readSync, this.hid.write),
-    'ram2': properties.ram2(this.hid.readSync, this.hid.write)
+    'ram2': properties.ram2(this.hid.readSync, this.hid.write),
+    'unlock': properties.unlock(this.hid.readSync, this.hid.write),
+    'requestBusRelease': properties.release(this.hid.readSync, this.hid.write),
+    'cancel': properties.cancel(this.hid.readSync, this.hid.write)
   });
   Object.defineProperties(this.gpio, {
     'current': properties.gpio.current(this.hid.readSync, this.hid.write),
@@ -86,58 +89,7 @@ mcp2210.prototype.readManufacturerName = function(){
 mcp2210.prototype.requestBusRelease = function(ack){
   this.hid.write([0x80, ack ? 0x01 : 0x00, 0x00]);
 };
-
-mcp2210.prototype.sendPassword = function(password){
-  this.hid.write([0x70, 0x00, 0x00, 0x00].concat(password.concat([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])));
-};*/
-
-/*
-    case 0x21:
-      type = 'ChipConfigWrite';
-      break;
-    case 0x30:
-      type = 'GPIOWrite';
-      ret = parseGPIO(data);
-      break;
-    case 0x32:
-      type = 'GPIODirWrite';
-      break;
-    case 0x40:
-      type = 'SPIConfigWrite';
-      ret = parseSPIConf(data);
-      break;
-    case 0x42:
-      type = 'SPITransfer';
-      ret = parseTransfer(data);
-      break;
-    case 0x51:
-      type = 'EEPROMWrite';
-      break;
-    case 0x60:
-      switch(data[2]){
-        case 0x10:
-          type = 'PowerUpSPIConfigWrite';
-          break;
-        case 0x20:
-          type = 'PowerUpChipConfigWrite';
-          break;
-        case 0x30:
-          type = 'USBKeyParametersWrite';
-          break;
-        case 0x40:
-          type = 'USBProductNameWrite';
-          break;
-        case 0x50:
-          type = 'USBManufactuererNameWrite';
-          break;
-        default:
-          type = 'NVRAMWrite';
-          break;
-      }
-      break;
 */
-
-
 
 
 exports.mcp2210 = mcp2210;

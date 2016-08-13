@@ -151,3 +151,40 @@ exports.ram2 = function(read, write){
     enumerable: true
   };
 };
+
+exports.unlock = function(read, write){
+  return {
+    value: function(password){
+      if(Array.isArray(password) && password.length > 0 && password.length < 9){
+        write([0x70, 0x00, 0x00, 0x00].concat(password.concat([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])));
+        var data = read();
+        return data[0] === 0x70 && data[1] === 0x00;
+      }
+      return false;
+    },
+    enumerable: true
+  };
+};
+
+
+exports.release = function(read, write){
+  return {
+    value: function(ack){
+      this.hid.write([0x80, ack ? 0x01 : 0x00, 0x00]);
+      var data = read();
+      return data[0] === 0x80 && data[1] === 0x00;      
+    },
+    enumerable: true
+  };
+};
+
+exports.cancel = function(read, write){
+  return{
+    value: function(){
+      this.hid.write([0x11, 0x00, 0x00]);
+      var data = read();
+      return data[0] === 0x11 && data[1] === 0x00;
+    },
+    enumerable: true
+  };
+};
