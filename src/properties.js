@@ -254,7 +254,7 @@ exports.transfer = function(read, write){
   return {
     value: function(data, cb){
       if(Array.isArray(data)){
-        var out = [0x42, min(data.length, 60), 0x00, 0x00];
+        var out = [0x42, Math.min(data.length, 60), 0x00, 0x00];
         for(var i = 0; i < data.length && i < 60; i++){
           if(typeof data[i] !== 'number'){
             cb('invalid data');
@@ -291,6 +291,7 @@ exports.transfer = function(read, write){
               return;
             }
           }
+          write([0x42, 0x00, 0x00, 0x00]);
         }
       }
       cb('invalid data');
