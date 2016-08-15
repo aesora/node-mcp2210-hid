@@ -3,6 +3,7 @@
 ## `node-mcp2210-hid`
  - [`mcp2210`](#mcp2210)
  - [`pinDesignation`](#pindesignation)
+ - [`pinDir`](#pindir)
  - [`interruptMode`](#interruptmode)
  - [`accessControl`](#accesscontrol)
  - [`powerOption`](#poweroption)
@@ -35,6 +36,12 @@
  - `GPIO` *general purpose I/O*
  - `CS` *chip select*
  - `DF` *dedicated function*
+
+#### `pinDir`
+> The function of a pin.
+
+ - `OUT` *output*
+ - `IN` *input*
 
 ### `interruptMode`
 > Which changes to count on the interrupt pin

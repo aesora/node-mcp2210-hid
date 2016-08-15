@@ -1,6 +1,6 @@
 {
   "name": "node-mcp2210-hid",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP2210 API using node-hid",
   "main": "mcp2210.js",
   "scripts": {

@@ -83,6 +83,11 @@ exports.pinDesignation = {
   DF: 2
 };
 
+exports.pinDir = {
+  OUT: 0,
+  IN: 1
+};
+
 exports.interruptMode = {
   NONE: 0,
   FALLING: 1,
