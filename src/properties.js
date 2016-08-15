@@ -43,10 +43,45 @@ exports.nvm1 = function(read, write){
         return ret;
       }
       return undefined;
-
     },
     set: function(val){
-      //TODO
+      var out = [0x60, 0x20, 0x00, 0x00];
+      if(Array.isArray(val.gpio) && val.gpio.length === 9){
+        out[13] = 0x00;
+        out[15] = 0x00;
+        for(var i = 0; i < 9; i++){
+          if(typeof val.gpio[i].designation !== 'number') return;
+          out[4+i] = val.gpio[i].designation & 0xff;
+          val.gpio[i].defaultOutput = val.gpio[i].defaultOutput ? 1 : 0;
+          val.gpio[i].defaultDir = val.gpio[i].defaultDir ? 1 : 0;
+          if(i < 8){
+            out[13] = out[13] & (val.gpio[1].defaultOutput << i);
+            out[13] = out[15] & (val.gpio[1].defaultDir << i);
+          }
+          out[14] = val.gpio[8].defaultOutput;
+          out[16] = val.gpio[8].defaultDir;
+        }
+        if(typeof val.accessControl !== 'number') return;
+        if(typeof val.interruptMode !== 'number') return;
+        val.remoteWakeUp = val.remoteWakeUp ? 1 : 0;
+        val.autoRelease = val.autoRelease ? 1 : 0;
+        out[17] = val.autoRelease + ((val.interruptMode & 7) << 1) + (val.remoteWakeUp << 4);
+        out[18] = val.accessControl & 0xff;
+        out[19] = 0x00;
+        out[20] = 0x00;
+        out[21] = 0x00;
+        out[22] = 0x00;
+        out[23] = 0x00;
+        out[24] = 0x00;
+        out[25] = 0x00;
+        out[26] = 0x00;
+        write(out);
+        var data = read();
+        if(data[0] === 0x60 && data[1] === 0x00 && data[2] === 0x20){
+          return val;
+        }
+      }
+      return undefined;
     },
     enumerable: true
   };
@@ -75,10 +110,45 @@ exports.ram1 = function(read, write){
         return ret;
       }
       return undefined;
-
     },
     set: function(val){
-      //TODO
+      var out = [0x21, 0x00, 0x00, 0x00];
+      if(Array.isArray(val.gpio) && val.gpio.length === 9){
+        out[13] = 0x00;
+        out[15] = 0x00;
+        for(var i = 0; i < 9; i++){
+          if(typeof val.gpio[i].designation !== 'number') return;
+          out[4+i] = val.gpio[i].designation & 0xff;
+          val.gpio[i].defaultOutput = val.gpio[i].defaultOutput ? 1 : 0;
+          val.gpio[i].defaultDir = val.gpio[i].defaultDir ? 1 : 0;
+          if(i < 8){
+            out[13] = out[13] & (val.gpio[1].defaultOutput << i);
+            out[13] = out[15] & (val.gpio[1].defaultDir << i);
+          }
+          out[14] = val.gpio[8].defaultOutput;
+          out[16] = val.gpio[8].defaultDir;
+        }
+        if(typeof val.accessControl !== 'number') return;
+        if(typeof val.interruptMode !== 'number') return;
+        val.remoteWakeUp = val.remoteWakeUp ? 1 : 0;
+        val.autoRelease = val.autoRelease ? 1 : 0;
+        out[17] = val.autoRelease + ((val.interruptMode & 7) << 1) + (val.remoteWakeUp << 4);
+        out[18] = val.accessControl & 0xff;
+        out[19] = 0x00;
+        out[20] = 0x00;
+        out[21] = 0x00;
+        out[22] = 0x00;
+        out[23] = 0x00;
+        out[24] = 0x00;
+        out[25] = 0x00;
+        out[26] = 0x00;
+        write(out);
+        var data = read();
+        if(data[0] === 0x21 && data[1] === 0x00){
+          return val;
+        }
+      }
+      return undefined;
     },
     enumerable: true
   };
@@ -112,7 +182,42 @@ exports.nvm2 = function(read, write){
       return undefined;
     },
     set: function(val){
-      //TODO
+      var out = [0x60, 0x10, 0x00, 0x00];
+      if(typeof val.bitRate === 'number' && typeof val.delayCStoD === 'number' && typeof val.delayDtoCS === 'number' && typeof val.delayB === 'number' &&
+         typeof val.bytesPerTransaction === 'number' && typeof spiMode === 'number' && Array.isArray(ret.idleCS) && array.isArray(ret.activeCS) && ret.idleCS.length === 9 &&
+         ret.activeCS.length === 9){
+        out[4] = val.bitRate & 0xff;
+        out[5] = (val.bitRate >> 8) & 0xff;
+        out[6] = (val.bitRate >> 16) & 0xff;
+        out[7] = (val.bitRate >> 24) & 0xff;
+        out[8] = 0;
+        out[10] = 0;
+        for(var i = 0; i < 9; i++){
+          val.idleCS[i] = val.idleCS[i] ? 1 : 0;
+          val.activeCS[i] = val.activeCS[i] ? 1 : 0;
+          if(i < 8){
+            out[8] = out[8] + val.idleCS[i] << i;
+            out[10] = out[10] + val.activeCS[i] << i;
+          }
+        }
+        out[9] = val.idleCS[8];
+        out[11] = val.activeCS[8];
+        out[12] = val.delayCStoD & 0xff;
+        out[13] = (val.delayCStoD >> 8) & 0xff;
+        out[14] = val.delayDtoCS & 0xff;
+        out[15] = (val.delayDtoCS >> 8) & 0xff;
+        out[16] = val.delayB & 0xff;
+        out[17] = (val.delayB >> 8) & 0xff;
+        out[18] = val.bytesPerTransaction & 0xff;
+        out[13] = (val.bytesPerTransaction >> 8) & 0xff;
+        out[20] = val.spiMode & 0xff;
+        write(out);
+        var data = read();
+        if(data[0] === 0x60 && data[1] === 0x00 && data[2] === 0x10){
+          return val;
+        }
+      }
+      return undefined;
     },
     enumerable: true
   };
@@ -146,7 +251,42 @@ exports.ram2 = function(read, write){
       return undefined;
     },
     set: function(val){
-      //TODO
+      var out = [0x40, 0x00, 0x00, 0x00];
+      if(typeof val.bitRate === 'number' && typeof val.delayCStoD === 'number' && typeof val.delayDtoCS === 'number' && typeof val.delayB === 'number' &&
+         typeof val.bytesPerTransaction === 'number' && typeof spiMode === 'number' && Array.isArray(ret.idleCS) && array.isArray(ret.activeCS) && ret.idleCS.length === 9 &&
+         ret.activeCS.length === 9){
+        out[4] = val.bitRate & 0xff;
+        out[5] = (val.bitRate >> 8) & 0xff;
+        out[6] = (val.bitRate >> 16) & 0xff;
+        out[7] = (val.bitRate >> 24) & 0xff;
+        out[8] = 0;
+        out[10] = 0;
+        for(var i = 0; i < 9; i++){
+          val.idleCS[i] = val.idleCS[i] ? 1 : 0;
+          val.activeCS[i] = val.activeCS[i] ? 1 : 0;
+          if(i < 8){
+            out[8] = out[8] + val.idleCS[i] << i;
+            out[10] = out[10] + val.activeCS[i] << i;
+          }
+        }
+        out[9] = val.idleCS[8];
+        out[11] = val.activeCS[8];
+        out[12] = val.delayCStoD & 0xff;
+        out[13] = (val.delayCStoD >> 8) & 0xff;
+        out[14] = val.delayDtoCS & 0xff;
+        out[15] = (val.delayDtoCS >> 8) & 0xff;
+        out[16] = val.delayB & 0xff;
+        out[17] = (val.delayB >> 8) & 0xff;
+        out[18] = val.bytesPerTransaction & 0xff;
+        out[13] = (val.bytesPerTransaction >> 8) & 0xff;
+        out[20] = val.spiMode & 0xff;
+        write(out);
+        var data = read();
+        if(data[0] === 0x40 && data[1] === 0x00){
+          return val;
+        }
+      }
+      return undefined;
     },
     enumerable: true
   };
