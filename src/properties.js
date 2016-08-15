@@ -175,7 +175,7 @@ exports.nvm2 = function(read, write){
         ret.delayCStoD = data[12] | (data[13] << 8);
         ret.delayDtoCS = data[14] | (data[15] << 8);
         ret.delayB = data[16] | (data[17] << 8);
-        ret.bytesPerTransaction = data[12] | (data[13] << 8);
+        ret.bytesPerTransaction = data[18] | (data[19] << 8);
         ret.spiMode = data[20];
         return ret;
       }
@@ -184,8 +184,8 @@ exports.nvm2 = function(read, write){
     set: function(val){
       var out = [0x60, 0x10, 0x00, 0x00];
       if(typeof val.bitRate === 'number' && typeof val.delayCStoD === 'number' && typeof val.delayDtoCS === 'number' && typeof val.delayB === 'number' &&
-         typeof val.bytesPerTransaction === 'number' && typeof spiMode === 'number' && Array.isArray(ret.idleCS) && array.isArray(ret.activeCS) && ret.idleCS.length === 9 &&
-         ret.activeCS.length === 9){
+         typeof val.bytesPerTransaction === 'number' && typeof val.spiMode === 'number' && Array.isArray(val.idleCS) && Array.isArray(val.activeCS) && val.idleCS.length === 9 &&
+         val.activeCS.length === 9){
         out[4] = val.bitRate & 0xff;
         out[5] = (val.bitRate >> 8) & 0xff;
         out[6] = (val.bitRate >> 16) & 0xff;
@@ -209,7 +209,7 @@ exports.nvm2 = function(read, write){
         out[16] = val.delayB & 0xff;
         out[17] = (val.delayB >> 8) & 0xff;
         out[18] = val.bytesPerTransaction & 0xff;
-        out[13] = (val.bytesPerTransaction >> 8) & 0xff;
+        out[19] = (val.bytesPerTransaction >> 8) & 0xff;
         out[20] = val.spiMode & 0xff;
         write(out);
         var data = read();
@@ -244,7 +244,7 @@ exports.ram2 = function(read, write){
         ret.delayCStoD = data[12] | (data[13] << 8);
         ret.delayDtoCS = data[14] | (data[15] << 8);
         ret.delayB = data[16] | (data[17] << 8);
-        ret.bytesPerTransaction = data[12] | (data[13] << 8);
+        ret.bytesPerTransaction = data[18] | (data[19] << 8);
         ret.spiMode = data[20];
         return ret;
       }
@@ -253,8 +253,8 @@ exports.ram2 = function(read, write){
     set: function(val){
       var out = [0x40, 0x00, 0x00, 0x00];
       if(typeof val.bitRate === 'number' && typeof val.delayCStoD === 'number' && typeof val.delayDtoCS === 'number' && typeof val.delayB === 'number' &&
-         typeof val.bytesPerTransaction === 'number' && typeof spiMode === 'number' && Array.isArray(ret.idleCS) && array.isArray(ret.activeCS) && ret.idleCS.length === 9 &&
-         ret.activeCS.length === 9){
+         typeof val.bytesPerTransaction === 'number' && typeof val.spiMode === 'number' && Array.isArray(val.idleCS) && Array.isArray(val.activeCS) && val.idleCS.length === 9 &&
+         val.activeCS.length === 9){
         out[4] = val.bitRate & 0xff;
         out[5] = (val.bitRate >> 8) & 0xff;
         out[6] = (val.bitRate >> 16) & 0xff;
@@ -278,7 +278,7 @@ exports.ram2 = function(read, write){
         out[16] = val.delayB & 0xff;
         out[17] = (val.delayB >> 8) & 0xff;
         out[18] = val.bytesPerTransaction & 0xff;
-        out[13] = (val.bytesPerTransaction >> 8) & 0xff;
+        out[19] = (val.bytesPerTransaction >> 8) & 0xff;
         out[20] = val.spiMode & 0xff;
         write(out);
         var data = read();
