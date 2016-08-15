@@ -55,8 +55,8 @@ exports.nvm1 = function(read, write){
           val.gpio[i].defaultOutput = val.gpio[i].defaultOutput ? 1 : 0;
           val.gpio[i].defaultDir = val.gpio[i].defaultDir ? 1 : 0;
           if(i < 8){
-            out[13] = out[13] & (val.gpio[1].defaultOutput << i);
-            out[13] = out[15] & (val.gpio[1].defaultDir << i);
+            out[13] = out[13] | (val.gpio[i].defaultOutput << i);
+            out[15] = out[15] | (val.gpio[i].defaultDir << i);
           }
           out[14] = val.gpio[8].defaultOutput;
           out[16] = val.gpio[8].defaultDir;
@@ -65,7 +65,7 @@ exports.nvm1 = function(read, write){
         if(typeof val.interruptMode !== 'number') return;
         val.remoteWakeUp = val.remoteWakeUp ? 1 : 0;
         val.autoRelease = val.autoRelease ? 1 : 0;
-        out[17] = val.autoRelease + ((val.interruptMode & 7) << 1) + (val.remoteWakeUp << 4);
+        out[17] = val.autoRelease | ((val.interruptMode & 7) << 1) | (val.remoteWakeUp << 4);
         out[18] = val.accessControl & 0xff;
         out[19] = 0x00;
         out[20] = 0x00;
@@ -122,8 +122,8 @@ exports.ram1 = function(read, write){
           val.gpio[i].defaultOutput = val.gpio[i].defaultOutput ? 1 : 0;
           val.gpio[i].defaultDir = val.gpio[i].defaultDir ? 1 : 0;
           if(i < 8){
-            out[13] = out[13] & (val.gpio[1].defaultOutput << i);
-            out[13] = out[15] & (val.gpio[1].defaultDir << i);
+            out[13] = out[13] | (val.gpio[i].defaultOutput << i);
+            out[15] = out[15] | (val.gpio[i].defaultDir << i);
           }
           out[14] = val.gpio[8].defaultOutput;
           out[16] = val.gpio[8].defaultDir;
@@ -132,7 +132,7 @@ exports.ram1 = function(read, write){
         if(typeof val.interruptMode !== 'number') return;
         val.remoteWakeUp = val.remoteWakeUp ? 1 : 0;
         val.autoRelease = val.autoRelease ? 1 : 0;
-        out[17] = val.autoRelease + ((val.interruptMode & 7) << 1) + (val.remoteWakeUp << 4);
+        out[17] = val.autoRelease | ((val.interruptMode & 7) << 1) | (val.remoteWakeUp << 4);
         out[18] = val.accessControl & 0xff;
         out[19] = 0x00;
         out[20] = 0x00;
@@ -161,7 +161,7 @@ exports.nvm2 = function(read, write){
       var data = read();
       var ret = {};
       if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x10){
-        ret.bitRate = data[4] + (data[5] << 8) + (data[6] << 16) + (data[7] << 24);
+        ret.bitRate = data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] << 24);
         ret.idleCS = [];
         for(var i=0; i<8; i++){
           ret.idleCS.push((data[8] >> i) & 1);
@@ -172,10 +172,10 @@ exports.nvm2 = function(read, write){
           ret.activeCS.push((data[10] >> i) & 1);
         }
         ret.activeCS.push(data[11] & 1)
-        ret.delayCStoD = data[12] + (data[13] << 8);
-        ret.delayDtoCS = data[14] + (data[15] << 8);
-        ret.delayB = data[16] + (data[17] << 8);
-        ret.bytesPerTransaction = data[12] + (data[13] << 8);
+        ret.delayCStoD = data[12] | (data[13] << 8);
+        ret.delayDtoCS = data[14] | (data[15] << 8);
+        ret.delayB = data[16] | (data[17] << 8);
+        ret.bytesPerTransaction = data[12] | (data[13] << 8);
         ret.spiMode = data[20];
         return ret;
       }
@@ -196,8 +196,8 @@ exports.nvm2 = function(read, write){
           val.idleCS[i] = val.idleCS[i] ? 1 : 0;
           val.activeCS[i] = val.activeCS[i] ? 1 : 0;
           if(i < 8){
-            out[8] = out[8] + val.idleCS[i] << i;
-            out[10] = out[10] + val.activeCS[i] << i;
+            out[8] = out[8] | val.idleCS[i] << i;
+            out[10] = out[10] | val.activeCS[i] << i;
           }
         }
         out[9] = val.idleCS[8];
@@ -230,7 +230,7 @@ exports.ram2 = function(read, write){
       var data = read();
       var ret = {};
       if(data[0] === 0x41 && data[1] === 0x00){
-        ret.bitRate = data[4] + (data[5] << 8) + (data[6] << 16) + (data[7] << 24);
+        ret.bitRate = data[4] | (data[5] << 8) | (data[6] << 16) | (data[7] << 24);
         ret.idleCS = [];
         for(var i=0; i<8; i++){
           ret.idleCS.push((data[8] >> i) & 1);
@@ -241,10 +241,10 @@ exports.ram2 = function(read, write){
           ret.activeCS.push((data[10] >> i) & 1);
         }
         ret.activeCS.push(data[11] & 1)
-        ret.delayCStoD = data[12] + (data[13] << 8);
-        ret.delayDtoCS = data[14] + (data[15] << 8);
-        ret.delayB = data[16] + (data[17] << 8);
-        ret.bytesPerTransaction = data[12] + (data[13] << 8);
+        ret.delayCStoD = data[12] | (data[13] << 8);
+        ret.delayDtoCS = data[14] | (data[15] << 8);
+        ret.delayB = data[16] | (data[17] << 8);
+        ret.bytesPerTransaction = data[12] | (data[13] << 8);
         ret.spiMode = data[20];
         return ret;
       }
@@ -265,8 +265,8 @@ exports.ram2 = function(read, write){
           val.idleCS[i] = val.idleCS[i] ? 1 : 0;
           val.activeCS[i] = val.activeCS[i] ? 1 : 0;
           if(i < 8){
-            out[8] = out[8] + val.idleCS[i] << i;
-            out[10] = out[10] + val.activeCS[i] << i;
+            out[8] = out[8] | val.idleCS[i] << i;
+            out[10] = out[10] | val.activeCS[i] << i;
           }
         }
         out[9] = val.idleCS[8];
@@ -334,7 +334,7 @@ exports.interrupt = function(read, write){
     value: function(reset){
       write([0x12, reset ? 0x00 : 0x01]);
       var data = read();
-      return data[0] === 0x12 && data[1] === 0x00 ? data[4] + (data[5] << 8) : undefined;
+      return data[0] === 0x12 && data[1] === 0x00 ? data[4] | (data[5] << 8) : undefined;
     },
     enumerable: true
   };

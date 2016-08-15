@@ -6,7 +6,7 @@ exports.manufacturer = function(read, write){
       var ret = '';
       if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x50){
         for(var i = 6; i < data[4] + 6 - 2 && i < data.length; i+= 2){
-          ret += String.fromCharCode(data[i] + (data[i+1] << 8));
+          ret += String.fromCharCode(data[i] | (data[i+1] << 8));
         }
         return ret;
       }
@@ -74,7 +74,7 @@ exports.vid = function(read, write){
       write([0x61, 0x30, 0x00]);
       var data = read();
       if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x30){
-        return data[12] + (data[13] << 8);
+        return data[12] | (data[13] << 8);
       }
       return undefined;
     },
@@ -99,7 +99,7 @@ exports.pid = function(read, write){
       write([0x61, 0x30, 0x00]);
       var data = read();
       if(data[0] === 0x61 && data[1] === 0x00 && data[2] === 0x30){
-        return data[14] + (data[15] << 8);
+        return data[14] | (data[15] << 8);
       }
       return undefined;
     },
